@@ -21,13 +21,13 @@ public class BookViewController {
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("books", bookService.findAll());
-        return "books"; 
+        return "book/books"; 
     }
 
     @GetMapping("/add")
     public String addBookForm(Model model) {
         model.addAttribute("book", new Book());
-        return "add-book";
+        return "book/add-book";
     }
 
     @PostMapping("/add")
@@ -40,7 +40,7 @@ public class BookViewController {
     public String editBookForm(@PathVariable Long id, Model model) {
         Book book = bookService.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
         model.addAttribute("book", book);
-        return "edit-book";
+        return "book/edit-book";
     }
 
     @PostMapping("/edit/{id}")
