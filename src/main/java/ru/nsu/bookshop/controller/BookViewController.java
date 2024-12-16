@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.AllArgsConstructor;
-import ru.nsu.bookshop.model.Book;
+import ru.nsu.bookshop.model.entity.Book;
 import ru.nsu.bookshop.service.BookService;
 
 @Controller

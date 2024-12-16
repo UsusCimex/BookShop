@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import ru.nsu.bookshop.model.Book;
+import ru.nsu.bookshop.model.entity.Book;
 import ru.nsu.bookshop.repositrory.BookRepository;
 
 @Service

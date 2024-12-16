@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.AllArgsConstructor;
-import ru.nsu.bookshop.model.Client;
+import ru.nsu.bookshop.model.entity.Client;
 import ru.nsu.bookshop.service.ClientService;
 
 @Controller
