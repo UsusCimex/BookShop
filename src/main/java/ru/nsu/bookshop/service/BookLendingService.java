@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +22,18 @@ public class BookLendingService {
     private final BookLendingRepository lendingRepository;
     private final ClientService clientService;
     private final BookService bookService;
+
+    public Page<BookLendingDTO> searchLendings(String clientName, String bookTitle, Boolean returnStatus, Pageable pageable) {
+        return lendingRepository.searchLendings(clientName, bookTitle, returnStatus, pageable)
+                .map(this::convertToDTO);
+    }
+
+    public List<BookLendingDTO> findAll() {
+        return lendingRepository.findAll()
+            .stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+    }
 
     public BookLending borrowBook(Long clientId, Long bookId) throws NotFoundException {
         Client client = clientService.findById(clientId)

@@ -7,11 +7,28 @@
 <body>
     <div class="container">
         <h1>Список книг</h1>
+
         <div class="navigation">
             <a class="button-secondary" th:href="@{/clients}">Список клиентов</a>
             <a class="button-secondary" th:href="@{/lendings}">Выдача книг</a>
             <a class="button-primary" th:href="@{/books/add}">Добавить книгу</a>
         </div>
+
+        <!-- Форма фильтрации -->
+        <form action="/books" method="get" class="filter-form">
+            <label for="title">Название:</label>
+            <input type="text" id="title" name="title" placeholder="Название книги" th:value="${title}">
+
+            <label for="author">Автор:</label>
+            <input type="text" id="author" name="author" placeholder="Автор" th:value="${author}">
+
+            <label for="isbn">ISBN:</label>
+            <input type="text" id="isbn" name="isbn" placeholder="ISBN" th:value="${isbn}">
+
+            <button type="submit" class="button-primary">Поиск</button>
+        </form>
+
+        <!-- Таблица с книгами -->
         <table>
             <thead>
                 <tr>
@@ -32,6 +49,18 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Навигация по страницам -->
+        <div class="pagination">
+            <ul>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{'/books'(title=${title}, author=${author}, isbn=${isbn}, page=${i}, size=10)}"
+                       th:classappend="${i == currentPage} ? 'active'">
+                       <span th:text="${i + 1}">1</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>

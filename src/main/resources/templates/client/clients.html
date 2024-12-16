@@ -7,11 +7,32 @@
 <body>
     <div class="container">
         <h1>Список клиентов</h1>
+
+        <!-- Навигация -->
         <div class="navigation">
             <a class="button-secondary" th:href="@{/books}">Список книг</a>
             <a class="button-secondary" th:href="@{/lendings}">Выдача книг</a>
             <a class="button-primary" th:href="@{/clients/add}">Добавить клиента</a>
         </div>
+
+        <!-- Форма фильтрации -->
+        <form action="/clients" method="get" class="filter-form">
+            <label for="firstName">Имя:</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Имя клиента" th:value="${firstName}">
+        
+            <label for="lastName">Фамилия:</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Фамилия клиента" th:value="${lastName}">
+        
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Email клиента" th:value="${email}">
+        
+            <label for="phone">Телефон:</label>
+            <input type="text" id="phone" name="phone" placeholder="Телефон клиента" th:value="${phone}">
+        
+            <button type="submit" class="button-primary">Поиск</button>
+        </form>        
+
+        <!-- Таблица с клиентами -->
         <table>
             <thead>
                 <tr>
@@ -36,6 +57,18 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Навигация по страницам -->
+        <div class="pagination">
+            <ul>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{'/clients'(firstName=${firstName}, lastName=${lastName}, page=${i}, size=10)}"
+                       th:classappend="${i == currentPage} ? 'active'">
+                       <span th:text="${i + 1}">1</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>

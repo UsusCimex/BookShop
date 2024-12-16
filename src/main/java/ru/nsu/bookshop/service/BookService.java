@@ -3,6 +3,8 @@ package ru.nsu.bookshop.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -13,6 +15,10 @@ import ru.nsu.bookshop.repositrory.BookRepository;
 @AllArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
+
+    public Page<Book> searchBooks(String title, String author, String isbn, Pageable pageable) {
+        return bookRepository.searchBooks(title, author, isbn, pageable);
+    }
 
     public List<Book> findAll() {
         return bookRepository.findAll();

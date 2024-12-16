@@ -7,11 +7,33 @@
 <body>
     <div class="container">
         <h1>Выданные книги</h1>
+
+        <!-- Навигация -->
         <div class="navigation">
             <a class="button-secondary" th:href="@{/books}">Список книг</a>
             <a class="button-secondary" th:href="@{/clients}">Список клиентов</a>
             <a class="button-primary" th:href="@{/lendings/new}">Выдать книгу</a>
         </div>
+
+        <!-- Форма фильтрации -->
+        <form action="/lendings" method="get" class="filter-form">
+            <label for="clientName">Клиент:</label>
+            <input type="text" id="clientName" name="clientName" placeholder="Имя клиента" th:value="${clientName != null ? clientName : ''}">
+        
+            <label for="bookTitle">Книга:</label>
+            <input type="text" id="bookTitle" name="bookTitle" placeholder="Название книги" th:value="${bookTitle != null ? bookTitle : ''}">
+        
+            <label for="returnStatus">Возвращена:</label>
+            <select id="returnStatus" name="returnStatus">
+                <option th:value="null" th:selected="${returnStatus == null}">Все</option>
+                <option th:value="true" th:selected="${returnStatus == true}">Нет</option>
+                <option th:value="false" th:selected="${returnStatus == false}">Да</option>
+            </select>
+        
+            <button type="submit" class="button-primary">Фильтр</button>
+        </form>        
+
+        <!-- Таблица с выдачами -->
         <table>
             <thead>
                 <tr>
@@ -25,21 +47,40 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="lending : ${lendings}">
-                    <td th:text="${lending.clientFullName}"></td>
-                    <td th:text="${lending.bookTitle}"></td>
-                    <td th:text="${lending.bookAuthor}"></td>
-                    <td th:text="${lending.isbn}"></td>
-                    <td th:text="${#temporals.format(lending.borrowDate, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td th:text="${lending.returnDate != null ? #temporals.format(lending.returnDate, 'dd-MM-yyyy HH:mm') : 'Не возвращена'}"></td>
-                    <td>
-                        <form th:if="${lending.returnDate == null}" th:action="@{/lendings/{id}/return(id=${lending.id})}" method="post">
-                            <button type="submit" class="button-warning">Вернуть книгу</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
+                <th:block th:if="${lendings != null}">
+                    <tr th:each="lending : ${lendings}">
+                        <td th:text="${lending.clientFullName}"></td>
+                        <td th:text="${lending.bookTitle}"></td>
+                        <td th:text="${lending.bookAuthor}"></td>
+                        <td th:text="${lending.isbn}"></td>
+                        <td th:text="${#temporals.format(lending.borrowDate, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td th:text="${lending.returnDate != null ? #temporals.format(lending.returnDate, 'dd-MM-yyyy HH:mm') : 'Не возвращена'}"></td>
+                        <td>
+                            <form th:if="${lending.returnDate == null}" th:action="@{/lendings/{id}/return(id=${lending.id})}" method="post">
+                                <button type="submit" class="button-warning">Вернуть книгу</button>
+                            </form>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${lendings == null || lendings.isEmpty()}">
+                    <tr>
+                        <td colspan="7">Данные отсутствуют</td>
+                    </tr>
+                </th:block>
+            </tbody>            
         </table>
+
+        <!-- Пагинация -->
+        <div class="pagination">
+            <ul>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{'/lendings'(clientName=${clientName}, bookTitle=${bookTitle}, returnStatus=${returnStatus}, page=${i}, size=10)}"
+                       th:classappend="${i == currentPage} ? 'active'">
+                       <span th:text="${i + 1}">1</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
