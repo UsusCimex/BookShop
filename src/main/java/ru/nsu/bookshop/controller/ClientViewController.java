@@ -1,5 +1,6 @@
 package ru.nsu.bookshop.controller;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,15 +38,15 @@ public class ClientViewController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editClientForm(@PathVariable Long id, Model model) {
-        Client client = clientService.findById(id).orElseThrow(() -> new RuntimeException("Client not found"));
+    public String editClientForm(@PathVariable Long id, Model model) throws NotFoundException {
+        Client client = clientService.findById(id).orElseThrow(() -> new NotFoundException());
         model.addAttribute("client", client);
         return "client/edit-client";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateClient(@PathVariable Long id, @ModelAttribute Client client) {
-        clientService.update(id, client);
+    public String updateClient(@PathVariable Long id, @ModelAttribute Client client) throws NotFoundException {
+        clientService.update(id, client).orElseThrow(() -> new NotFoundException());
         return "redirect:/clients";
     }
 }

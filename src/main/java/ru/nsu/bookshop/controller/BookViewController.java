@@ -1,5 +1,7 @@
 package ru.nsu.bookshop.controller;
 
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,15 +39,15 @@ public class BookViewController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editBookForm(@PathVariable Long id, Model model) {
-        Book book = bookService.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+    public String editBookForm(@PathVariable Long id, Model model) throws NotFoundException {
+        Book book = bookService.findById(id).orElseThrow(() -> new NotFoundException());
         model.addAttribute("book", book);
         return "book/edit-book";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateBook(@PathVariable Long id, @ModelAttribute Book book) {
-        bookService.update(id, book);
+    public String updateBook(@PathVariable Long id, @ModelAttribute Book book) throws NotFoundException {
+        bookService.update(id, book).orElseThrow(() -> new NotFoundException());
         return "redirect:/books";
     }
 }
