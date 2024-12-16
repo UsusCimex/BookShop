@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: bookshop_db
+    environment:
+      POSTGRES_DB: bookshop
+      POSTGRES_USER: login
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U login -d bookshop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
