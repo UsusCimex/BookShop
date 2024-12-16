@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Список клиентов</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-    <h1>Список клиентов</h1>
-    <div class="navigation">
-        <a class="button-secondary" th:href="@{/books}">Список книг</a>
-        <a class="button-primary" th:href="@{/clients/add}">Добавить клиента</a>
+    <div class="container">
+        <h1>Список клиентов</h1>
+        <div class="navigation">
+            <a class="button-secondary" th:href="@{/books}">Список книг</a>
+            <a class="button-secondary" th:href="@{/lendings}">Выдача книг</a>
+            <a class="button-primary" th:href="@{/clients/add}">Добавить клиента</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Дата рождения</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client : ${clients}">
+                    <td th:text="${client.firstName}"></td>
+                    <td th:text="${client.lastName}"></td>
+                    <td th:text="${#temporals.format(client.birthDate, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${client.email}"></td>
+                    <td th:text="${client.phone}"></td>
+                    <td>
+                        <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="button-secondary">Редактировать</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Email</th>
-                <th>Телефон</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="client : ${clients}">
-                <td th:text="${client.firstName}"></td>
-                <td th:text="${client.lastName}"></td>
-                <td th:text="${client.email}"></td>
-                <td th:text="${client.phone}"></td>
-                <td>
-                    <a th:href="@{/clients/edit/{id}(id=${client.id})}">Редактировать</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </body>
 </html>

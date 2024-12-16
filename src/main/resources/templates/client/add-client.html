@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Добавить клиента</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <title>Добавление клиента</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-    <h1>Добавить нового клиента</h1>
-    <div class="form-wrapper">
-        <form th:action="@{/clients/add}" th:object="${client}" method="post">
-            <label for="firstName">Имя:</label>
-            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required />
-            <label for="lastName">Фамилия:</label>
-            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required />
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" th:field="*{email}" required />
-            <label for="phone">Телефон:</label>
-            <input type="text" id="phone" name="phone" th:field="*{phone}" required />
-            <div class="buttons">
-                <button type="submit">Сохранить</button>
-                <a class="button-secondary" th:href="@{/clients}">Назад</a>
+    <div class="container">
+        <h1>Добавление клиента</h1>
+        <div class="navigation">
+            <a class="button-secondary" th:href="@{/clients}">Назад к списку</a>
+        </div>
+        <form th:action="@{/clients/add}" method="post" th:object="${client}">
+            <div class="form-group">
+                <label for="firstName">Имя:</label>
+                <input type="text" id="firstName" th:field="*{firstName}" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Фамилия:</label>
+                <input type="text" id="lastName" th:field="*{lastName}" required>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Дата рождения:</label>
+                <input type="date" id="birthDate" th:field="*{birthDate}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:field="*{email}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" th:field="*{phone}" required>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="button-primary">Сохранить</button>
+                <a href="/clients" class="button-secondary">Отмена</a>
             </div>
         </form>
     </div>

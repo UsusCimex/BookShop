@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Редактировать книгу</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <title>Редактирование книги</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-    <h1>Редактировать книгу</h1>
-    <div class="form-wrapper">
-        <form th:action="@{/books/edit/{id}(id=${book.id})}" th:object="${book}" method="post">
-            <label for="title">Название:</label>
-            <input type="text" id="title" name="title" th:field="*{title}" required />
-            <label for="author">Автор:</label>
-            <input type="text" id="author" name="author" th:field="*{author}" required />
-            <label for="isbn">ISBN:</label>
-            <input type="text" id="isbn" name="isbn" th:field="*{isbn}" required />
-            <div class="buttons">
-                <button type="submit">Обновить</button>
-                <a class="button-secondary" th:href="@{/books}">Назад</a>
+    <div class="container">
+        <h1>Редактирование книги</h1>
+        <div class="navigation">
+            <a class="button-secondary" th:href="@{/books}">Назад к списку</a>
+        </div>
+        <form th:action="@{/books/edit/{id}(id=${book.id})}" method="post" th:object="${book}">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label for="title">Название:</label>
+                <input type="text" id="title" th:field="*{title}" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Автор:</label>
+                <input type="text" id="author" th:field="*{author}" required>
+            </div>
+            <div class="form-group">
+                <label for="isbn">ISBN:</label>
+                <input type="text" id="isbn" th:field="*{isbn}" required>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="button-primary">Сохранить</button>
+                <a href="/books" class="button-secondary">Отмена</a>
             </div>
         </form>
     </div>

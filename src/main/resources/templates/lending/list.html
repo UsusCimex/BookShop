@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Выданные книги</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Выданные книги</h1>
+        <div class="navigation">
+            <a class="button-secondary" th:href="@{/books}">Список книг</a>
+            <a class="button-secondary" th:href="@{/clients}">Список клиентов</a>
+            <a class="button-primary" th:href="@{/lendings/new}">Выдать книгу</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Клиент</th>
+                    <th>Книга</th>
+                    <th>Автор</th>
+                    <th>ISBN</th>
+                    <th>Дата выдачи</th>
+                    <th>Дата возврата</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="lending : ${lendings}">
+                    <td th:text="${lending.clientFullName}"></td>
+                    <td th:text="${lending.bookTitle}"></td>
+                    <td th:text="${lending.bookAuthor}"></td>
+                    <td th:text="${lending.isbn}"></td>
+                    <td th:text="${#temporals.format(lending.borrowDate, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${lending.returnDate != null ? #temporals.format(lending.returnDate, 'dd-MM-yyyy HH:mm') : 'Не возвращена'}"></td>
+                    <td>
+                        <form th:if="${lending.returnDate == null}" th:action="@{/lendings/{id}/return(id=${lending.id})}" method="post">
+                            <button type="submit" class="button-warning">Вернуть книгу</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
