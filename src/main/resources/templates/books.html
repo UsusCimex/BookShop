@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Библиотека - Книги</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+    <h1>Библиотека книг</h1>
+    <a th:href="@{/clients}">Клиенты</a>
+    <a th:href="@{/books/add}">Добавить книгу</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>ISBN</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.isbn}"></td>
+                <td>
+                    <a th:href="@{/books/edit/{id}(id=${book.id})}">Изменить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

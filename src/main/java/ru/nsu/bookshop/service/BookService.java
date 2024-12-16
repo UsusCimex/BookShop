@@ -1,6 +1,7 @@
 package ru.nsu.bookshop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,11 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book findById(Long id) {
-        return bookRepository.findById(id).orElse(null);
+    public Optional<Book> findById(Long id) {
+        return bookRepository.findById(id);
     }
 
-    public Book save(Book book) {
+    public Book add(Book book) {
         return bookRepository.save(book);
     }
 
@@ -29,14 +30,13 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public Book update(Long id, Book book) {
-        Book bookToUpdate = bookRepository.findById(id).orElse(null);
-        if (bookToUpdate != null) {
-            bookToUpdate.setTitle(book.getTitle());
-            bookToUpdate.setAuthor(book.getAuthor());
-            bookToUpdate.setISBN(book.getISBN());
-            return bookRepository.save(bookToUpdate);
-        }
-        return null;
+    public Optional<Book> update(Long id, Book book) {
+        return bookRepository.findById(id)
+            .map(bookToUpdate -> {
+                bookToUpdate.setTitle(book.getTitle());
+                bookToUpdate.setAuthor(book.getAuthor());
+                bookToUpdate.setIsbn(book.getIsbn());
+                return bookRepository.save(bookToUpdate);
+            });
     }
 }

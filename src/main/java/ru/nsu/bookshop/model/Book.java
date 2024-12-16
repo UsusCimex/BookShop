@@ -23,6 +23,6 @@ public class Book {
     @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "ISBN", nullable = false)
-    private String ISBN;
+    @Column(name = "isbn", nullable = false)
+    private String isbn;
 }
